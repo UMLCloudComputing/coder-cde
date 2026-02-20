@@ -183,7 +183,7 @@ machine:
         # The disk used for installations.
         disk: /dev/sda
         # Allows for supplying the image used to perform the installation.
-        image: ghcr.io/siderolabs/installer:v1.11.6
+        image: factory.talos.dev/nocloud-installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.12.3
         # Indicates if the installation disk should be wiped at installation time.
         wipe: false
         # # Look up disk using disk attributes like model, size, serial and others.
@@ -545,8 +545,8 @@ sops:
           created_at: "2026-02-20T06:36:03Z"
           enc: AQICAHiooRLGrWsPbSbnXMlKVrZ/PKfAlJUuhYtXduXu/FX0XgHJdHhimUjxKfghTFS9PqzCAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMQN+7k3t3oEHhLmKvAgEQgDupaM+wQ5PoJwBYMfLbgH2q9ZgRnpl03IFpYyktWfamuRv7brmdau7w/KLA9La+228zZsjkMJMBy0fnIA==
           aws_profile: ""
-    lastmodified: "2026-02-20T06:36:03Z"
-    mac: ENC[AES256_GCM,data:tuv0eHh5kBHAYYOZmTDIpStiNa3wzPGduAWG8nKNbO4hJD9qyVO63L1xnF1wFIA+yCSNdzHUIITQRcJlXnSqKq3pSJcb7wN3KgxrQiOm39lwTiBfILTk/LFqJEjS/LlkLa65qXtswstr9iRQ96XJlpkiR+Mqc/Kd1+YDCOuqyqA=,iv:tS7v0arnf2XyR85u7+2ZSe3bDLVHJbgz89QkKhE8vFE=,tag:4yvh9jNJKWHeaDMZLD5k2A==,type:str]
+    lastmodified: "2026-02-20T07:08:25Z"
+    mac: ENC[AES256_GCM,data:f4EaP1zzWwKgngM+E5A7V0mo5nAjeKCaIY3R0iWqZv1YYyoD50x3kaOoH0z81wWedQQEDJ7CH3pX5AtZT9yMyKDaOHDks5+WYCIa0E0l5QPbwgWyIz8/sTgLsB37O3HVU9oAw9BQNLOGN0n3YDJLh+rrETTTuapru+gD18Z+1aY=,iv:kVdHRt4K1UeCpdHiLmp6Oj8RkJUlN+hpnsC6dDuvnF8=,tag:FLdkUTpgK6nz/DgQLTIxkA==,type:str]
     encrypted_regex: ^(token|crt|key|secret)$
     version: 3.11.0
 ---
@@ -564,7 +564,7 @@ sops:
           created_at: "2026-02-20T06:36:03Z"
           enc: AQICAHiooRLGrWsPbSbnXMlKVrZ/PKfAlJUuhYtXduXu/FX0XgHJdHhimUjxKfghTFS9PqzCAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMQN+7k3t3oEHhLmKvAgEQgDupaM+wQ5PoJwBYMfLbgH2q9ZgRnpl03IFpYyktWfamuRv7brmdau7w/KLA9La+228zZsjkMJMBy0fnIA==
           aws_profile: ""
-    lastmodified: "2026-02-20T06:36:03Z"
-    mac: ENC[AES256_GCM,data:tuv0eHh5kBHAYYOZmTDIpStiNa3wzPGduAWG8nKNbO4hJD9qyVO63L1xnF1wFIA+yCSNdzHUIITQRcJlXnSqKq3pSJcb7wN3KgxrQiOm39lwTiBfILTk/LFqJEjS/LlkLa65qXtswstr9iRQ96XJlpkiR+Mqc/Kd1+YDCOuqyqA=,iv:tS7v0arnf2XyR85u7+2ZSe3bDLVHJbgz89QkKhE8vFE=,tag:4yvh9jNJKWHeaDMZLD5k2A==,type:str]
+    lastmodified: "2026-02-20T07:08:25Z"
+    mac: ENC[AES256_GCM,data:f4EaP1zzWwKgngM+E5A7V0mo5nAjeKCaIY3R0iWqZv1YYyoD50x3kaOoH0z81wWedQQEDJ7CH3pX5AtZT9yMyKDaOHDks5+WYCIa0E0l5QPbwgWyIz8/sTgLsB37O3HVU9oAw9BQNLOGN0n3YDJLh+rrETTTuapru+gD18Z+1aY=,iv:kVdHRt4K1UeCpdHiLmp6Oj8RkJUlN+hpnsC6dDuvnF8=,tag:FLdkUTpgK6nz/DgQLTIxkA==,type:str]
     encrypted_regex: ^(token|crt|key|secret)$
     version: 3.11.0
