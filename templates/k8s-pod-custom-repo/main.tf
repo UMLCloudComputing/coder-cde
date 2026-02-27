@@ -119,15 +119,6 @@ data "coder_external_auth" "github" {
   id = "github-primary"
 }
 
-resource "coder_agent" "main" {
-  os = "linux"
-  arch = "amd64"
-  env = {
-    GITHUB_TOKEN = data.coder_external_auth.github.access_token
-  }
-}
-
-
 provider "kubernetes" {
   host = "https://kubernetes.default.svc" # Internal cluster address
   token = var.k8s_token
@@ -206,6 +197,11 @@ resource "coder_agent" "main" {
     EOT
     interval = 60
     timeout  = 1
+  }
+
+  # To authenticate and clone private repos using user's access token
+  env = {
+    GITHUB_TOKEN = data.coder_external_auth.github.access_token
   }
 }
 
