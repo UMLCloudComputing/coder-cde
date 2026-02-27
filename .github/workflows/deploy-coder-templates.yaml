@@ -44,14 +44,13 @@ jobs:
       - name: Install Coder CLI
         run: curl -L https://coder.com/install.sh | sh
  
-      # Validate syntax 
-      - name: Terraform Validate
+      - name: Terraform Plan
         working-directory: ./templates/${{ matrix.template }}
         run: |
           terraform init -backend=false
           # Passing dummy variable to perform static analysis via terraform
           # Live checks are done in the next step via coder plan
-          terraform validate -var="k8s_token=dummy" -var "k8s_cluster_ca=dummy"
+          terraform plan -var="k8s_token=dummy" -var "k8s_cluster_ca=dummy"
 
       # Coder specific validation (Provider checks)
       # Actually sends the template to the coder server to validate against production environment (in a sandbox).
