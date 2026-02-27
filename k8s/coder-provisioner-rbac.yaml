@@ -1,0 +1,27 @@
+# coder-provisioner-rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: coder-workspace-manager
+  namespace: coder-workspaces
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/log", "pods/exec", "services", "persistentvolumeclaims", "secrets", "configmaps", ""]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: coder-provisioner-binding
+  namespace: coder-workspaces
+subjects:
+- kind: ServiceAccount
+  name: coder-provisioner
+  namespace: coder-workspaces
+roleRef:
+  kind: Role
+  name: coder-workspace-manager
+  apiGroup: rbac.authorization.k8s.io
