@@ -46,10 +46,13 @@ jobs:
       - name: Terraform Validate
         working-directory: ./templates/${{ matrix.template }}
         run: |
+          # Passing dummy variable to perform static analysis via terraform
+          # Live checks are done in the next step via coder plan
           terraform init -backend=false
-          terraform validate
+          terraform validate -var="k8s_token=dummy" -var="k8s_cluster_ca=dummy"
 
       # Coder specific validation (Provider checks)
+      # Actually sends the template to the coder server to validate against production environment (in a sandbox).
       - name: Coder Plan 
         env:
           CODER_SESSION_TOKEN: ${{ secrets.CODER_SESSION_TOKEN }}
