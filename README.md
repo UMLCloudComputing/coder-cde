@@ -1,4 +1,4 @@
-# UML Cloud Computing Club Coder Cloud Development Environments
+# Coder Cloud Development Environments
 
 Accessible at https://coder.umlcloudcomputing.org
 
