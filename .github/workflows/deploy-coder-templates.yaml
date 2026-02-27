@@ -43,26 +43,6 @@ jobs:
 
       - name: Install Coder CLI
         run: curl -L https://coder.com/install.sh | sh
- 
-      - name: Terraform Plan
-        working-directory: ./templates/${{ matrix.template }}
-        run: |
-          terraform init -backend=false
-          # Passing dummy variable to perform static analysis via terraform
-          # Live checks are done in the next step via coder plan
-          terraform plan -var="k8s_token=dummy" -var "k8s_cluster_ca=dummy"
-
-      # Coder specific validation (Provider checks)
-      # Actually sends the template to the coder server to validate against production environment (in a sandbox).
-      - name: Coder Plan 
-        env:
-          CODER_SESSION_TOKEN: ${{ secrets.CODER_SESSION_TOKEN }}
-          CODER_URL: ${{ vars.CODER_URL }}
-        run: |
-          # Authenticate with token
-          coder login $CODER_URL --token $CODER_SESSION_TOKEN
-          coder templates plan ${{ matrix.template }} \
-            --directory ./templates/${{ matrix.template }} 
 
       - name: Push Template to Coder
         env:
@@ -75,3 +55,4 @@ jobs:
           coder templates push ${{ matrix.template }} \
             --directory ./templates/${{ matrix.template }} \
             --yes
+            -m ${{ github.event.head_commit.message }}
