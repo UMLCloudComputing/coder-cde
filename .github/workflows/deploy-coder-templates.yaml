@@ -19,7 +19,7 @@ jobs:
         run: |
           # Finds all unique directories under /templates that had changes 
           # Formats them into a JSON array: ["project1", "project2"]
-          DIRS = $(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | \
+          DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | \
                    grep '^templates/' | cut -d/ -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
           echo "matrix=$DIRS" >> $GITHUB_OUTPUT 
 
