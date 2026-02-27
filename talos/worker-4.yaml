@@ -300,7 +300,7 @@ machine:
     # # Used to configure the machine's sysctls.
     # # MachineSysctls usage example.
     sysctls:
-        vm.rn_hugepages: "1024"
+        vm.nr_hugepages: "1024"
     #     kernel.domainname: talos.dev
     #     net.ipv4.ip_forward: "0"
     #     net/ipv6/conf/eth0.100/disable_ipv6: "1"
@@ -545,8 +545,8 @@ sops:
           created_at: "2026-02-20T06:36:20Z"
           enc: AQICAHiooRLGrWsPbSbnXMlKVrZ/PKfAlJUuhYtXduXu/FX0XgF2IOnfAkehXJf590lH85BFAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMMRtGaEseLi2Ag1feAgEQgDsYQ7J74GB8cOk75yDcmxaSD3MeE7d/4SzIH4S0eVG5cI1AGuB2mhIUsWzVCrWYBU8u9eRj7mqX14w8/w==
           aws_profile: ""
-    lastmodified: "2026-02-20T07:09:06Z"
-    mac: ENC[AES256_GCM,data:oLTwY1/1M9i5s2wEh6ToDda0kGI39gZU/eFTtnHTte9hiqTp3ZCYSsKdwShtz24AFsrXfR5TIzZRwlhzpVMMTazlsAu1+uDbhhMk/Zrfcjeexa7QjsOEfOOxFa9VktQcSZI0UG+T2XC3uvasxme/vhgBqOCxBC4wui4Cf2uXtIA=,iv:6lqTUBpLUY9NuXckVmQ/BD5d7QXNRwCQsPg259+aGmE=,tag:t0G/6RpvEcxQAXybqWuAhg==,type:str]
+    lastmodified: "2026-02-20T23:01:26Z"
+    mac: ENC[AES256_GCM,data:ZfZxvosf7YWGfWJTz50fipGE9e1vAk5sQVDD4f6yykg/QQd9GBnijqY+qN/gvKm2DIEtknFAege/Edi2luPZsZBXIwA/jymKCEvD6wbPfycI7RKwVXjuEenlXVzpGbr6a2eZ0HYlaSqcnwIRMz/xRIwb6XV+66+1Cw0IOnmsrco=,iv:jL2ClaMTtGFcIbCy4CbpDWLbHps4oANFED98Fz8BmqA=,tag:rum6dk3UsJVetF+CC8uMFw==,type:str]
     encrypted_regex: ^(token|crt|key|secret)$
     version: 3.11.0
 ---
@@ -555,16 +555,16 @@ kind: UserVolumeConfig
 name: longhorn
 provisioning:
     diskSelector:
-        match: disk.transport == "virtio" && disk.size > 150u * GiB
+        match: disk.transport == "virtio" && disk.size > 400u * GiB
     grow: true
-    maxSize: 500GiB
+    maxSize: 100GiB
 sops:
     kms:
         - arn: arn:aws:kms:us-east-1:840414111995:key/e92c49ff-f7f5-4b04-9780-cc8550392b1f
           created_at: "2026-02-20T06:36:20Z"
           enc: AQICAHiooRLGrWsPbSbnXMlKVrZ/PKfAlJUuhYtXduXu/FX0XgF2IOnfAkehXJf590lH85BFAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMMRtGaEseLi2Ag1feAgEQgDsYQ7J74GB8cOk75yDcmxaSD3MeE7d/4SzIH4S0eVG5cI1AGuB2mhIUsWzVCrWYBU8u9eRj7mqX14w8/w==
           aws_profile: ""
-    lastmodified: "2026-02-20T07:09:06Z"
-    mac: ENC[AES256_GCM,data:oLTwY1/1M9i5s2wEh6ToDda0kGI39gZU/eFTtnHTte9hiqTp3ZCYSsKdwShtz24AFsrXfR5TIzZRwlhzpVMMTazlsAu1+uDbhhMk/Zrfcjeexa7QjsOEfOOxFa9VktQcSZI0UG+T2XC3uvasxme/vhgBqOCxBC4wui4Cf2uXtIA=,iv:6lqTUBpLUY9NuXckVmQ/BD5d7QXNRwCQsPg259+aGmE=,tag:t0G/6RpvEcxQAXybqWuAhg==,type:str]
+    lastmodified: "2026-02-20T23:01:26Z"
+    mac: ENC[AES256_GCM,data:ZfZxvosf7YWGfWJTz50fipGE9e1vAk5sQVDD4f6yykg/QQd9GBnijqY+qN/gvKm2DIEtknFAege/Edi2luPZsZBXIwA/jymKCEvD6wbPfycI7RKwVXjuEenlXVzpGbr6a2eZ0HYlaSqcnwIRMz/xRIwb6XV+66+1Cw0IOnmsrco=,iv:jL2ClaMTtGFcIbCy4CbpDWLbHps4oANFED98Fz8BmqA=,tag:rum6dk3UsJVetF+CC8uMFw==,type:str]
     encrypted_regex: ^(token|crt|key|secret)$
     version: 3.11.0
