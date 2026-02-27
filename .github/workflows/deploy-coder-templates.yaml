@@ -1,0 +1,74 @@
+name: Deploy Coder Templates
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'templates/**' ] # Only run if the files int eh templates folder change
+
+jobs:
+  # Detect which templates actually changed
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs: 
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get changed template directories
+        id: set-matrix
+        run: |
+          # Finds all unique directories under /templates that had changes 
+          # Formats them into a JSON array: ["project1", "project2"]
+          DIRS = $(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | \
+                   grep '^templates/' | cut -d/ -f2 | sort -u | jq -R -s -c 'split("\n")[:-1]')
+          echo "matrix=$DIRS" >> $GITHUB_OUTPUT 
+
+  # Push only the changed templates
+  deploy:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.matrix != '[]' }} # Skips if no templates changed
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        template: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Terraform  
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.0"
+
+      - name: Install Coder CLI
+        run: curl -L https://coder.com/install.sh | sh
+ 
+      # Validate syntax 
+      - name: Terraform Validate
+        working-directory: ./templates/${{ matrix.template }}
+        run: |
+          terraform init -backend=false
+          terraform validate
+
+      # Coder specific validation (Provider checks)
+      - name: Coder Plan 
+        env:
+          CODER_SESSION_TOKEN: ${{ secrets.CODER_SESSION_TOKEN }}
+          CODER_URL: ${{ vars.CODER_URL }}
+        run: |
+          # Authenticate with token
+          coder login $CODER_URL --token $CODER_SESSION_TOKEN
+          coder templates plan ${{ matrix.template }} \
+            --directory ./templates/${{ matrix.template }} 
+
+      - name: Push Template to Coder
+        env:
+          CODER_SESSION_TOKEN: ${{ secrets.CODER_SESSION_TOKEN }}
+          CODER_URL: ${{ vars.CODER_URL }}
+        run: |
+          # Authenticate with token
+          coder login $CODER_URL --token $CODER_SESSION_TOKEN
+
+          coder templates push ${{ matrix.template }} \
+            --directory ./templates/${{ matrix.template }} \
+            --yes
