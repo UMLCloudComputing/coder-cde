@@ -3,6 +3,7 @@ on:
   push:
     branches: [ main ]
     paths: [ 'templates/**' ] # Only run if the files int eh templates folder change
+  workflow_dispatch:
 
 jobs:
   # Detect which templates actually changed
