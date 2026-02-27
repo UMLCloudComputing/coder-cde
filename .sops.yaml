@@ -2,4 +2,6 @@ creation_rules:
     - path_regex: ^talos/(.*\.yaml|talosconfig)$
       encrypted_regex: '^(token|crt|key|secret)$'
       kms: 'arn:aws:kms:us-east-1:840414111995:key/e92c49ff-f7f5-4b04-9780-cc8550392b1f'
- 
+    - path_regex: ^helm/(.*\.yaml)$
+      encrypted_regex: '^(value|token|crt|key|secret)$'
+      kms: 'arn:aws:kms:us-east-1:840414111995:key/479cf093-8169-457d-bec2-adc3db73bd85'
