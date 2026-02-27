@@ -1,0 +1,53 @@
+coder:
+    # You can specify any environment variables you'd like to pass to Coder
+    # here. Coder consumes environment variables listed in
+    # `coder server --help`, and these environment variables are also passed
+    # to the workspace provisioner (so you can consume them in your Terraform
+    # templates for auth keys etc.).
+    #
+    # Please keep in mind that you should not set `CODER_HTTP_ADDRESS`,
+    # `CODER_TLS_ENABLE`, `CODER_TLS_CERT_FILE` or `CODER_TLS_KEY_FILE` as
+    # they are already set by the Helm chart and will cause conflicts.
+    env:
+        - name: CODER_PG_CONNECTION_URL
+          valueFrom:
+            secretKeyRef:
+                # You'll need to create a secret called coder-db-url with your
+                # Postgres connection URL like:
+                # postgres://coder:password@postgres:5432/coder?sslmode=disable
+                name: coder-db-url
+                key: ENC[AES256_GCM,data:9LT8,iv:wrbaVrD5Nv5L+vQtEdeViCT+4OsooNwV67DRQ3uWbhc=,tag:f8KDisFqPPP1WKTcjmUbxA==,type:str]
+        # For production deployments, we recommend configuring your own GitHub
+        # OAuth2 provider and disabling the default one.
+        - name: CODER_OAUTH2_GITHUB_DEFAULT_PROVIDER_ENABLE
+          value: ENC[AES256_GCM,data:Ly1AtxY=,iv:JZKYVWJAUrKDiak2Y5Uw3Xyj5dAgo84E2Ptc7D41eqI=,tag:FdXnzIrkKrHuW7JMLgULWg==,type:str]
+        # External identity for Coder
+        - name: CODER_ACCESS_URL
+          value: ENC[AES256_GCM,data:Ju6t1VxNDYtQEeDMtiwOwjBqW38IiTPrM/kt+S6K+8R1Dzo=,iv:JTUB2Zj0dd/Emb31ShpWEInNGH/2sOOxzeR3XBKcnWg=,tag:Bab0dcpLVrGdl4j29UipLw==,type:str]
+        # Trust Cloudflare Proxy headers
+        - name: CODER_PROXY_TRUSTED_PROXIES
+          value: ENC[AES256_GCM,data:4rA/Yn6jN5fQqipPTpqUFFELwSlFVqfh/i7X/vnlagJMSB/9U6LF,iv:OdlheVrbivjbO+pdW2shNhllbfBO88TuY7afUWtS8ZM=,tag:YTYAZbU51WFuYZ2TvKTnbg==,type:str]
+        # GitHub OAuth
+        - name: CODER_OAUTH2_GITHUB_ALLOW_SIGNUPS
+          value: ENC[AES256_GCM,data:9XbmYg==,iv:QLpLYChzyTaLCwbs5WxhRyu5rWiTVIlPwbklImeNK6k=,tag:1S8ESQWVyvcDRrV58JfTOg==,type:str]
+        - name: CODER_OAUTH2_GITHUB_ALLOWED_ORGS
+          value: ENC[AES256_GCM,data:jprqLB1C4UmgKz+lhVLsVq8=,iv:NN2e0otXUcXCp/15njBKkYr99lSwLloYEo7CpjkKEOQ=,tag:I9+gtteQSphuDi1zQIbHWw==,type:str]
+        - name: CODER_OAUTH2_GITHUB_CLIENT_ID
+          value: ENC[AES256_GCM,data:tcxcbzefYzF/NCjFjy2qCjajFMs=,iv:C9NMlcCRa535j4KIw/X4rAB9ExxFLaDtlSRi4QYVP/Y=,tag:ctivK3h9X850uyBA2kZ9pQ==,type:str]
+        - name: CODER_OAUTH2_GITHUB_CLIENT_SECRET
+          value: ENC[AES256_GCM,data:Kn3Ndkdxr/MmQv+i/Bb+XnbepSDMYAMpgulIukzqK6wq28g7O/Sujg==,iv:U8EiQ+yU3lG+I4cCkWvMy6My/OhMimtiKsZqZWVfdzg=,tag:2oKYxCU4ldNuo4U+rdtIRA==,type:str]
+        - name: CODER_SECURE_AUTH_COOKIE
+          value: ENC[AES256_GCM,data:9XbmYg==,iv:QLpLYChzyTaLCwbs5WxhRyu5rWiTVIlPwbklImeNK6k=,tag:1S8ESQWVyvcDRrV58JfTOg==,type:str]
+#tls:
+#  secretNames:
+#    - my-tls-secret-name
+sops:
+    kms:
+        - arn: arn:aws:kms:us-east-1:840414111995:key/479cf093-8169-457d-bec2-adc3db73bd85
+          created_at: "2026-02-27T19:10:57Z"
+          enc: AQICAHhKu0QF7A66OFIKdNNHjoidBZ1H5yC9ninoNeaKENXWtAFP1R/nMbs5PNk5ME/dObpaAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMxVt3TYUWlnFlM4kIAgEQgDuOo0l5T/c38vTuIT/tnwGKRpPOI2A/OBLWneZziS7Wagrfy7Rauj5uAaip5U9Co6exXTJ9RMrFWQ3KLw==
+          aws_profile: ""
+    lastmodified: "2026-02-27T20:58:19Z"
+    mac: ENC[AES256_GCM,data:5Pz24vZx6r9IqZhYNkqlrVlJ0RYu4Dz83aEuYNLIMpPfpXqidvBZU5ayYiSSccnl2ratFsVVsr7goDUFXfYKgX0mwMyAaK5TtUhk64Bq45DA/KgZHategIXSWpymayCEgLp6aKPrwEeNUUn8GJ7XfA8ePODL+1F4a8EHsLpV0iU=,iv:G9g5a5dcqwEcvUg9uBONhqAfcR+xrFhcU8ljcIGFlko=,tag:XNlB72TmBdXyps3u3S3UEw==,type:str]
+    encrypted_regex: ^(value|token|crt|key|secret)$
+    version: 3.11.0
