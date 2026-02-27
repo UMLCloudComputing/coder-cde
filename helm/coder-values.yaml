@@ -33,11 +33,24 @@ coder:
         - name: CODER_OAUTH2_GITHUB_ALLOWED_ORGS
           value: ENC[AES256_GCM,data:jprqLB1C4UmgKz+lhVLsVq8=,iv:NN2e0otXUcXCp/15njBKkYr99lSwLloYEo7CpjkKEOQ=,tag:I9+gtteQSphuDi1zQIbHWw==,type:str]
         - name: CODER_OAUTH2_GITHUB_CLIENT_ID
-          value: ENC[AES256_GCM,data:tcxcbzefYzF/NCjFjy2qCjajFMs=,iv:C9NMlcCRa535j4KIw/X4rAB9ExxFLaDtlSRi4QYVP/Y=,tag:ctivK3h9X850uyBA2kZ9pQ==,type:str]
+          value: ENC[AES256_GCM,data:UK6RRORUWWoOEUXZ33oaYFJd0fk=,iv:RtVfoj/hrUl5nNMmSqxtD/+HWbOGeONSY+sRQ7jbaTQ=,tag:ZXSpGzdPMSnaUYgsoQBAPw==,type:str]
         - name: CODER_OAUTH2_GITHUB_CLIENT_SECRET
-          value: ENC[AES256_GCM,data:Kn3Ndkdxr/MmQv+i/Bb+XnbepSDMYAMpgulIukzqK6wq28g7O/Sujg==,iv:U8EiQ+yU3lG+I4cCkWvMy6My/OhMimtiKsZqZWVfdzg=,tag:2oKYxCU4ldNuo4U+rdtIRA==,type:str]
+          value: ENC[AES256_GCM,data:GL7guj6vLOc//8FDDR0/wXiGIVzwbH8FBnz804BZnl21RdP0lSRqcw==,iv:86CH98hQ55j3C4J2GXiTRvWlwi1xaDzVLI/KArKxgbE=,tag:rbloJbjjOc8NvSlplf8NPw==,type:str]
         - name: CODER_SECURE_AUTH_COOKIE
           value: ENC[AES256_GCM,data:9XbmYg==,iv:QLpLYChzyTaLCwbs5WxhRyu5rWiTVIlPwbklImeNK6k=,tag:1S8ESQWVyvcDRrV58JfTOg==,type:str]
+        # GitHub External Auth
+        - name: CODER_EXTERNAL_AUTH_0_ID
+          value: ENC[AES256_GCM,data:vvluUzJxrdEvAsxjv4Q=,iv:PdCWBzXDi6wttn6QamdaJZppMaTLVfHpHBRUIoWpu7M=,tag:5TB2P/ysiKcJZCtSF326pg==,type:str]
+        - name: CODER_EXTERNAL_AUTH_0_TYPE
+          value: ENC[AES256_GCM,data:YUZIITd1,iv:iJI7DUQRlXHhp/Xhd00uCXbYnpiq447fGXkpJPR1Uy4=,tag:WJ0HHItKY/eohCC5zgyzQQ==,type:str]
+        - name: CODER_EXTERNAL_AUTH_0_CLIENT_ID
+          value: ENC[AES256_GCM,data:UK6RRORUWWoOEUXZ33oaYFJd0fk=,iv:RtVfoj/hrUl5nNMmSqxtD/+HWbOGeONSY+sRQ7jbaTQ=,tag:ZXSpGzdPMSnaUYgsoQBAPw==,type:str]
+        - name: CODER_EXTERNAL_AUTH_0_CLIENT_SECRET
+          value: ENC[AES256_GCM,data:GL7guj6vLOc//8FDDR0/wXiGIVzwbH8FBnz804BZnl21RdP0lSRqcw==,iv:86CH98hQ55j3C4J2GXiTRvWlwi1xaDzVLI/KArKxgbE=,tag:rbloJbjjOc8NvSlplf8NPw==,type:str]
+        - name: CODER_EXTERNAL_AUTH_0_REGEX
+          value: ENC[AES256_GCM,data:q4vRFirXu0YiH8XDcTnX,iv:LujZ3RFGt99Hi9n/SQstUOXjGMSCOu77uIcp/5dZ5X0=,tag:L6+bas52MGW+4iX3yyDTfQ==,type:str]
+        - name: CODER_EXTERNAL_AUTH_0_SCOPES
+          value: ENC[AES256_GCM,data:PVfuhDNqBabuJU2Ik0EtaziKDYxNKp4omA==,iv:ko0Xc6qG2A0Y/aAmxRCSbC3pUYsYkJ+d5yIf/nIod4Y=,tag:uEJ2t5TomMXZ1tc+tgIzlA==,type:str]
 #tls:
 #  secretNames:
 #    - my-tls-secret-name
@@ -47,7 +60,7 @@ sops:
           created_at: "2026-02-27T19:10:57Z"
           enc: AQICAHhKu0QF7A66OFIKdNNHjoidBZ1H5yC9ninoNeaKENXWtAFP1R/nMbs5PNk5ME/dObpaAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMxVt3TYUWlnFlM4kIAgEQgDuOo0l5T/c38vTuIT/tnwGKRpPOI2A/OBLWneZziS7Wagrfy7Rauj5uAaip5U9Co6exXTJ9RMrFWQ3KLw==
           aws_profile: ""
-    lastmodified: "2026-02-27T20:58:19Z"
-    mac: ENC[AES256_GCM,data:5Pz24vZx6r9IqZhYNkqlrVlJ0RYu4Dz83aEuYNLIMpPfpXqidvBZU5ayYiSSccnl2ratFsVVsr7goDUFXfYKgX0mwMyAaK5TtUhk64Bq45DA/KgZHategIXSWpymayCEgLp6aKPrwEeNUUn8GJ7XfA8ePODL+1F4a8EHsLpV0iU=,iv:G9g5a5dcqwEcvUg9uBONhqAfcR+xrFhcU8ljcIGFlko=,tag:XNlB72TmBdXyps3u3S3UEw==,type:str]
+    lastmodified: "2026-02-27T22:49:07Z"
+    mac: ENC[AES256_GCM,data:QpHm+C6wqHSvyrGd1lIizeIVJCmTt8TrGulHxdAkS7uDiQK8T9RR2KNFl1QDBULj+WABt+ofLk7rVLyfqXJFHqt8p7IwrWIr6u+pTxQOhWaYwKBDAa1b7cEqt4W90uLGyWH/CitDG2gPHX4XpDwE7keRFwc8XTd2xnw0kqwMuu0=,iv:c+IckqU0g+vFoC7flbwljhV1BeNKxly65HxrP5rU48I=,tag:w3AFndO5F5g2WtqX7PePmw==,type:str]
     encrypted_regex: ^(value|token|crt|key|secret)$
     version: 3.11.0
