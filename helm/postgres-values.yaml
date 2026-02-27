@@ -1,0 +1,18 @@
+auth:
+  existingSecret: 'postgres-secret'
+  secretKeys:
+    adminPasswordKey: 'postgres-password'
+    userPasswordKey: 'password'
+    replicationPasswordKey: 'replication-password'
+  username: 'coder_user'
+  database: 'coder_db'
+
+primary:
+  persistence:
+    enabled: true
+    storageClass: longhorn
+    size: 50Gi
+    
+readReplicas:
+  replicaCount: 5
+  
