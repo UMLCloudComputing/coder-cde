@@ -55,5 +55,5 @@ jobs:
           coder templates push ${{ matrix.template }} \
             --directory ./templates/${{ matrix.template }} \
             --yes
-            -m ${{ github.event.head_commit.message }}
+            --message "${{ github.event.head_commit.message }}"
             --ignore-lockfile
