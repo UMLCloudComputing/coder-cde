@@ -13,10 +13,12 @@ Generic and project-specific workspace templates available.
 
 # Technologies 🏗️
 - Kubernetes
+  - Bitnami PostgreSQL
+  - Longhorn 
+  - GitHub Actions Runner Controller (self-hosted runners)
 - Coder CDE
 - Cloudflare Tunnels
 - GitHub Actions (CI/CD)
-- GitHub Actions Runner Controller (self-hosted runners)
 
 ## Development 🔬
 
