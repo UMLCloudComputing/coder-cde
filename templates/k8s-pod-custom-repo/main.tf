@@ -108,9 +108,7 @@ data "coder_external_auth" "github" {
   id = "primary-github"
 }
 
-provider "kubernetes" {
-  host = "https://kubernetes.default.svc" # Internal cluster address
-}
+provider "kubernetes" {}
 
 data "coder_workspace" "me" {}
 data "coder_workspace_owner" "me" {}
