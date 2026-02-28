@@ -16,9 +16,11 @@ Generic and project-specific workspace templates available.
 - Coder CDE
 - Cloudflare Tunnels
 - GitHub Actions (CI/CD)
+- GitHub Actions Runner Controller (self-hosted runners)
 
 ## Development 🔬
 
-`/templates` contains all files related to Coder templates for 
-
-...
+`/templates` contains all files related to Coder templates
+`/talos` contains all Talos machineconfig and talosconfig files
+`/arc` contains all files related to GitHub Actions Runner Controller and scale set files
+`/helm` contains helm values file for all helm packages installed
