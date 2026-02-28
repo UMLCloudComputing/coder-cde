@@ -8,7 +8,7 @@ on:
 jobs:
   # Detect which templates actually changed
   detect-changes:
-    runs-on: ubuntu-latest
+    runs-on: coder-runners
     outputs: 
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -28,7 +28,7 @@ jobs:
   deploy:
     needs: detect-changes
     if: ${{ needs.detect-changes.outputs.matrix != '[]' }} # Skips if no templates changed
-    runs-on: ubuntu-latest
+    runs-on: coder-runners
     strategy:
       matrix: 
         template: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
@@ -56,3 +56,4 @@ jobs:
             --directory ./templates/${{ matrix.template }} \
             --yes
             -m ${{ github.event.head_commit.message }}
+            --ignore-lockfile
