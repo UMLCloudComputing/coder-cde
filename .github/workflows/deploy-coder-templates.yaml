@@ -54,6 +54,7 @@ jobs:
 
           coder templates push ${{ matrix.template }} \
             --directory ./templates/${{ matrix.template }} \
-            --yes
-            --activate
+            --yes \
+            --activate \
             --ignore-lockfile
+
