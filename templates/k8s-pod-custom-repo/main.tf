@@ -95,13 +95,7 @@ data "coder_parameter" "home_disk_size" {
   }
 }
 
-variable "k8s_token" {
-  type        = string
-  sensitive   = true
-  description = "Token for the coder-provisioner service account"
-}
-
-
+ 
 # Choose your repo
 data "coder_parameter" "repo_url" {
   name         = "repo_url"
@@ -121,7 +115,6 @@ data "coder_external_auth" "github" {
 
 provider "kubernetes" {
   host = "https://kubernetes.default.svc" # Internal cluster address
-  token = var.k8s_token
   # Path to the cluster CA
   cluster_ca_certificate = file("/var/run/secrets/kubernetes.io/serviceaccount/ca.crt")
 }
