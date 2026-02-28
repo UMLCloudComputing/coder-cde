@@ -2,26 +2,40 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: coder-workspace-manager
+  name: workspace-provisioner-role
   namespace: coder-workspaces
 rules:
 - apiGroups: [""]
-  resources: ["pods", "pods/log", "pods/exec", "services", "persistentvolumeclaims", "secrets", "configmaps", ""]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  resources: ["pods", "persistentvolumeclaims"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete", "deletecollection"]
 - apiGroups: ["apps"]
   resources: ["deployments"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete", "deletecollection"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: coder-provisioner-binding
+  name: coder-provisioning-binding
   namespace: coder-workspaces
 subjects:
 - kind: ServiceAccount
-  name: coder-provisioner
-  namespace: coder-workspaces
+  name: coder
+  namespace: coder
 roleRef:
   kind: Role
-  name: coder-workspace-manager
+  name: workspace-provisioner-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: arc-provisioning-binding
+  namespace: coder-workspaces
+subjects:
+- kind: ServiceAccount
+  name: arc-runner-coder-provisioner
+  namespace: arc-runners
+roleRef:
+  kind: Role
+  name: workspace-provisioner-role
   apiGroup: rbac.authorization.k8s.io

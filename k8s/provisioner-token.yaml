@@ -1,9 +1,0 @@
-# provisioner-token.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: coder-provisioner-token
-  namespace: coder-workspaces
-  annotations:
-    kubernetes.io/service-account.name: coder-provisioner
-type: kubernetes.io/service-account-token
