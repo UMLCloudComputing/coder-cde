@@ -8,7 +8,7 @@ on:
 jobs:
   # Detect which templates actually changed
   detect-changes:
-    runs-on: coder-runners
+    runs-on: coder-runner-set
     outputs: 
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -28,7 +28,7 @@ jobs:
   deploy:
     needs: detect-changes
     if: ${{ needs.detect-changes.outputs.matrix != '[]' }} # Skips if no templates changed
-    runs-on: coder-runners
+    runs-on: coder-runner-set
     strategy:
       matrix: 
         template: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
