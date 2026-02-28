@@ -106,7 +106,7 @@ module "git-clone" {
 
 # Handling private repositories
 data "coder_external_auth" "github" {
-  id = "github-primary"
+  id = "primary-github"
 }
 
 provider "kubernetes" {
