@@ -110,8 +110,6 @@ data "coder_external_auth" "github" {
 
 provider "kubernetes" {
   host = "https://kubernetes.default.svc" # Internal cluster address
-  # Path to the cluster CA
-  cluster_ca_certificate = file("/var/run/secrets/kubernetes.io/serviceaccount/ca.crt")
 }
 
 data "coder_workspace" "me" {}

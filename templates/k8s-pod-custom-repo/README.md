@@ -1,7 +1,7 @@
 ---
 display_name: Kubernetes Pod Workspace (provide repo)
 description: Provision Kubernetes Deployments as Coder workspaces
-icon: ../../../site/static/icon/k8s.png
+icon: ../../../site/static/icon/k8s.svg
 maintainer_github: UMLCloudComputing
 verified: true
 tags: [kubernetes, container]
