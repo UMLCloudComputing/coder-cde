@@ -20,7 +20,7 @@ Generic and project-specific workspace templates available.
 
 ## Development 🔬
 
-`/templates` contains all files related to Coder templates
-`/talos` contains all Talos machineconfig and talosconfig files
-`/arc` contains all files related to GitHub Actions Runner Controller and scale set files
-`/helm` contains helm values file for all helm packages installed
+- `/templates` contains all files related to Coder templates
+- `/talos` contains all Talos machineconfig and talosconfig files
+- `/arc` contains all files related to GitHub Actions Runner Controller and scale set files
+- `/helm` contains helm values file for all helm packages installed
