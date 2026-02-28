@@ -363,3 +363,4 @@ resource "kubernetes_deployment_v1" "main" {
     }
   }
 }
+
