@@ -5,3 +5,5 @@ creation_rules:
     - path_regex: ^helm/(.*\.yaml)$
       encrypted_regex: '^(value|token|crt|key|secret)$'
       kms: 'arn:aws:kms:us-east-1:840414111995:key/479cf093-8169-457d-bec2-adc3db73bd85'
+    - path_regex: ^arc/(arc-for-coder.2026-02-27.private-key.pem)$
+      kms: 'arn:aws:kms:us-east-1:840414111995:key/13fa2340-b1b3-41b7-963c-11ccbd0f3908'
