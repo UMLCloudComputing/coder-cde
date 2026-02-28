@@ -91,7 +91,6 @@ data "coder_parameter" "home_disk_size" {
   }
 }
 
- 
 # Choose your repo
 data "coder_parameter" "repo_url" {
   name         = "repo_url"
