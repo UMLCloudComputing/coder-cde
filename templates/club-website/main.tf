@@ -127,7 +127,7 @@ module "code-server" {
 # Show the dev server through a link on the Coder dashboard
 resource "coder_app" "dev_server" {
   agent_id     = coder_agent.main.id
-  slug         = "dev_server"
+  slug         = "devserver"
   display_name = "Dev Server"
   url          = "http://localhost:3000" # Coder handles the proxying/TLS for you
   icon         = "https://raw.githubusercontent.com/fortawesome/Font-Awesome/6.x/svgs/solid/globe.svg"
