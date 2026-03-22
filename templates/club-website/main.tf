@@ -15,7 +15,7 @@ terraform {
 provider "coder" {}
 
 provider "kubernetes" {
-  config_path = var.use_kubeconfig == true ? "~/.kube/config" : null
+  config_path = "~/.kube/config"
 }
 
 provider "envbuilder" {}
@@ -23,21 +23,6 @@ provider "envbuilder" {}
 data "coder_provisioner" "me" {}
 data "coder_workspace" "me" {}
 data "coder_workspace_owner" "me" {}
-
-variable "use_kubeconfig" {
-  type        = bool
-  description = <<-EOF
-  Use host kubeconfig? (true/false)
-
-  Set this to false if the Coder host is itself running as a Pod on the same
-  Kubernetes cluster as you are deploying workspaces to.
-
-  Set this to true if the Coder host is running outside the Kubernetes cluster
-  for workspaces.  A valid "~/.kube/config" must be present on the Coder host.
-  EOF
-  default     = false
-}
-
 
 # Handling private repositories
 data "coder_external_auth" "github" {
