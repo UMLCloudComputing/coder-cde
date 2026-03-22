@@ -9,6 +9,8 @@ coder:
     # `CODER_TLS_ENABLE`, `CODER_TLS_CERT_FILE` or `CODER_TLS_KEY_FILE` as
     # they are already set by the Helm chart and will cause conflicts.
     env:
+        - name: CODER_MAX_ADMIN_TOKEN_LIFETIME
+          value: ENC[AES256_GCM,data:CopqJKRD0Kfe,iv:3xIXaDuFRY5t9GEKPX2c9yHg1ylOoOWgi+ws1JuwY6Q=,tag:PLI8FXxGqw+Gn5FFiSsj9w==,type:str]
         - name: CODER_PG_CONNECTION_URL
           valueFrom:
             secretKeyRef:
@@ -60,7 +62,7 @@ sops:
           created_at: "2026-02-27T19:10:57Z"
           enc: AQICAHhKu0QF7A66OFIKdNNHjoidBZ1H5yC9ninoNeaKENXWtAFP1R/nMbs5PNk5ME/dObpaAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMxVt3TYUWlnFlM4kIAgEQgDuOo0l5T/c38vTuIT/tnwGKRpPOI2A/OBLWneZziS7Wagrfy7Rauj5uAaip5U9Co6exXTJ9RMrFWQ3KLw==
           aws_profile: ""
-    lastmodified: "2026-02-27T22:49:07Z"
-    mac: ENC[AES256_GCM,data:QpHm+C6wqHSvyrGd1lIizeIVJCmTt8TrGulHxdAkS7uDiQK8T9RR2KNFl1QDBULj+WABt+ofLk7rVLyfqXJFHqt8p7IwrWIr6u+pTxQOhWaYwKBDAa1b7cEqt4W90uLGyWH/CitDG2gPHX4XpDwE7keRFwc8XTd2xnw0kqwMuu0=,iv:c+IckqU0g+vFoC7flbwljhV1BeNKxly65HxrP5rU48I=,tag:w3AFndO5F5g2WtqX7PePmw==,type:str]
+    lastmodified: "2026-03-22T20:06:20Z"
+    mac: ENC[AES256_GCM,data:dK9M4ueq/XXXCVk9eKx6uswdDpr1pX97/gUgMZ/A/UmTTc/jsPPvwL/LAeg/Fs/flprp/r8j0sTm/U1pZwDeRUaLVaYqCUVyFIaGXH0ZlzzTejKEx+QrFqtchXHQKnT+bh7iUDeiOD8FRdqrrsx0GhaDJdz53bWRw1ZnLUWaqg0=,iv:L7hNCAjTxvSQU2KPsZQeAEcmfBzSGUNopIC/+/2gOpk=,tag:G7/xhmCMCTxJluOVjO6bGw==,type:str]
     encrypted_regex: ^(value|token|crt|key|secret)$
     version: 3.11.0
