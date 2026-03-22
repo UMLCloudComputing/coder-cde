@@ -131,7 +131,6 @@ resource "coder_app" "dev_server" {
   display_name = "Dev Server"
   url          = "http://localhost:3000" # Coder handles the proxying/TLS for you
   icon         = "https://raw.githubusercontent.com/fortawesome/Font-Awesome/6.x/svgs/solid/globe.svg"
-  subdomain    = true # Recommended: gives the app its own unique subdomain
   share        = "owner" # Only the workspace owner can see this link
   order        = 2
 }
