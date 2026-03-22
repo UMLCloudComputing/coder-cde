@@ -34,17 +34,17 @@ resource "coder_agent" "main" {
   arch           = data.coder_provisioner.me.arch
   startup_script = <<-EOT
     set -e
-  EOT
-  dir = "/workspaces"
 
-  # To authenticate and clone private repos using user's access token
-  env = {
-    GITHUB_TOKEN = data.coder_external_auth.github.access_token
-    GIT_AUTHOR_NAME     = local.git_author_name
-    GIT_AUTHOR_EMAIL    = local.git_author_email
-    GIT_COMMITTER_NAME  = local.git_author_name
-    GIT_COMMITTER_EMAIL = local.git_author_email
-  }
+    # Configure Global Identity
+    git config --global user.name "${local.git_author_name}"
+    git config --global user.email "${local.git_author_email}"
+
+    # Set the Coder Credential Helper
+    # This tells Git: "When you need a password for GitHub, ask the Coder CLI"
+    coder git-auth setup github
+  EOT
+
+  dir = "/workspaces/${element(split("/", local.repo_url), length(split("/", local.repo_url)) - 1)}"
 
   # The following metadata blocks are optional. They are used to display
   # information about your workspace in the dashboard. You can remove them
@@ -124,12 +124,34 @@ module "code-server" {
   order    = 1 
 }
 
+# Show the dev server through a link on the Coder dashboard
+resource "coder_app" "webapp" {
+  agent_id     = coder_agent.main.id
+  slug         = "webapp"
+  display_name = "Dev Server"
+  url          = "http://localhost:3000" # Coder handles the proxying/TLS for you
+  icon         = "https://raw.githubusercontent.com/fortawesome/Font-Awesome/6.x/svgs/solid/globe.svg"
+  subdomain    = true # Recommended: gives the app its own unique subdomain
+  share        = "owner" # Only the workspace owner can see this link
+  order        = 2
+}
+
+resource "coder_metadata" "web_status" {
+  count       = data.coder_workspace.me.start_count
+  resource_id = coder_agent.main.id
+  item {
+    key   = "Web Server"
+    # This script checks if port 3000 is open
+    script = "nc -z localhost 3000 && echo 'Online' || echo 'Starting...'"
+    interval = 5
+  }
+}
 resource "coder_metadata" "container_info" {
   count       = data.coder_workspace.me.start_count
   resource_id = coder_agent.main.id
   item {
     key   = "workspace image"
-    value = var.cache_repo == "" ? local.devcontainer_builder_image : envbuilder_cached_image.cached.0.image
+    value = local.devcontainer_builder_image
   }
   item {
     key   = "git url"
@@ -137,29 +159,23 @@ resource "coder_metadata" "container_info" {
   }
   item {
     key   = "cache repo"
-    value = var.cache_repo == "" ? "not enabled" : var.cache_repo
+    value = "not enabled"
   }
 }
 
 locals {
   deployment_name            = "coder-${lower(data.coder_workspace.me.id)}"
-  devcontainer_builder_image = data.coder_parameter.devcontainer_builder.value
+  devcontainer_builder_image = "ghcr.io/coder/envbuilder:1.3.0"
   git_author_name            = coalesce(data.coder_workspace_owner.me.full_name, data.coder_workspace_owner.me.name)
   git_author_email           = data.coder_workspace_owner.me.email
-  repo_url                   = "https://github.com/UMLCloudComputing/UMLCloudComputing.github.io.git"
+  repo_url                   = "https://github.com/UMLCloudComputing/UMLCloudComputing.github.io.git" # Edit this to clone a different repo into the dev container
   # The envbuilder provider requires a key-value map of environment variables.
   envbuilder_env = {
     "CODER_AGENT_TOKEN" : coder_agent.main.token,
-    # Use the docker gateway if the access URL is 127.0.0.1
-    "CODER_AGENT_URL" : replace(data.coder_workspace.me.access_url, "/localhost|127\\.0\\.0\\.1/", "host.docker.internal"),
-    # ENVBUILDER_GIT_URL and ENVBUILDER_CACHE_REPO will be overridden by the provider
-    # if the cache repo is enabled.
+    "CODER_AGENT_URL" : data.coder_workspace.me.access_url
     "ENVBUILDER_GIT_URL" : local.repo_url,
-    # Use the docker gateway if the access URL is 127.0.0.1
-    "ENVBUILDER_INIT_SCRIPT" : replace(coder_agent.main.init_script, "/localhost|127\\.0\\.0\\.1/", "host.docker.internal"),
-    "ENVBUILDER_FALLBACK_IMAGE" : data.coder_parameter.fallback_image.value,
-    "ENVBUILDER_DOCKER_CONFIG_BASE64" : base64encode(try(data.kubernetes_secret_v1.cache_repo_dockerconfig_secret[0].data[".dockerconfigjson"], "")),
-    "ENVBUILDER_PUSH_IMAGE" : var.cache_repo == "" ? "" : "true"
+    "ENVBUILDER_GIT_TOKEN" : data.coder_external_auth.github.access_token
+    "ENVBUILDER_INIT_SCRIPT" : coder_agent.main.init_script
   }
 }
 
@@ -197,7 +213,7 @@ resource "kubernetes_persistent_volume_claim_v1" "workspaces" {
 resource "kubernetes_deployment_v1" "main" {
   count = data.coder_workspace.me.start_count
   depends_on = [
-    kubernetes_persistent_volume_claim_v1.home
+    kubernetes_persistent_volume_claim_v1.workspaces
   ]
   wait_for_rollout = false
   metadata {
@@ -242,11 +258,24 @@ resource "kubernetes_deployment_v1" "main" {
           name              = "dev"
           image             = local.devcontainer_builder_image
           image_pull_policy = "Always"
-          command           = ["sh", "-c", coder_agent.main.init_script]
-          security_context {}
+          command           = ["/envbuilder", "run"]
+          security_context {
+            run_as_user=1000
+          }
+          dynamic "env" {
+            for_each = local.envbuilder_env
+            content {
+              name = env.key
+              value = env.value
+            }
+          }
           env {
-            name  = "CODER_AGENT_TOKEN"
-            value = coder_agent.main.token
+            name = "GIT_AUTHOR_NAME"
+            value = local.git_author_name
+          }
+          env {
+            name = "GIT_AUTHOR_EMAIL"
+            value = local.git_author_email
           }
           resources {
             requests = {
@@ -268,7 +297,7 @@ resource "kubernetes_deployment_v1" "main" {
         volume {
           name = "workspaces"
           persistent_volume_claim {
-            claim_name = kubernetes_persistent_volume_claim_v1.home.metadata.0.name
+            claim_name = kubernetes_persistent_volume_claim_v1.workspaces.metadata.0.name
             read_only  = false
           }
         }
