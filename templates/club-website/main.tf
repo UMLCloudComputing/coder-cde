@@ -15,7 +15,7 @@ terraform {
 provider "coder" {}
 
 provider "kubernetes" {
-  config_path = "~/.kube/config"
+  config_path = null
 }
 
 provider "envbuilder" {}
