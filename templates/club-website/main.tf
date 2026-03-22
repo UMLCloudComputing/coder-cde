@@ -125,9 +125,9 @@ module "code-server" {
 }
 
 # Show the dev server through a link on the Coder dashboard
-resource "coder_app" "webapp" {
+resource "coder_app" "dev_server" {
   agent_id     = coder_agent.main.id
-  slug         = "webapp"
+  slug         = "dev_server"
   display_name = "Dev Server"
   url          = "http://localhost:3000" # Coder handles the proxying/TLS for you
   icon         = "https://raw.githubusercontent.com/fortawesome/Font-Awesome/6.x/svgs/solid/globe.svg"
@@ -136,16 +136,6 @@ resource "coder_app" "webapp" {
   order        = 2
 }
 
-resource "coder_metadata" "web_status" {
-  count       = data.coder_workspace.me.start_count
-  resource_id = coder_agent.main.id
-  item {
-    key   = "Web Server"
-    # This script checks if port 3000 is open
-    script = "nc -z localhost 3000 && echo 'Online' || echo 'Starting...'"
-    interval = 5
-  }
-}
 resource "coder_metadata" "container_info" {
   count       = data.coder_workspace.me.start_count
   resource_id = coder_agent.main.id
