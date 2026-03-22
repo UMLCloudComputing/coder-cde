@@ -1,7 +1,7 @@
 ---
 display_name: Club Website Devcontainer Workspace
 description: Development workspace for the club website
-icon: ../../../site/static/icon/k8s.svg
+icon: ../../../site/static/emojis/1f58b.png
 maintainer_github: UMLCloudComputing
 verified: true
 tags: [kubernetes, container]
