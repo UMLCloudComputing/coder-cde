@@ -111,33 +111,33 @@ resource "coder_agent" "main" {
     interval     = 10
     timeout      = 1
   }
-  
-  module "code-server" {
-    count  = data.coder_workspace.me.start_count
-    source = "registry.coder.com/coder/code-server/coder"
+}
 
-    # This ensures that the latest non-breaking version of the module gets downloaded, you can also pin the module version to prevent breaking changes in production.
-    version = "~> 1.0"
+module "code-server" {
+  count  = data.coder_workspace.me.start_count
+  source = "registry.coder.com/coder/code-server/coder"
 
-    agent_id = coder_agent.main.id
-    order    = 1 
+  # This ensures that the latest non-breaking version of the module gets downloaded, you can also pin the module version to prevent breaking changes in production.
+  version = "~> 1.0"
+
+  agent_id = coder_agent.main.id
+  order    = 1 
+}
+
+resource "coder_metadata" "container_info" {
+  count       = data.coder_workspace.me.start_count
+  resource_id = coder_agent.main.id
+  item {
+    key   = "workspace image"
+    value = var.cache_repo == "" ? local.devcontainer_builder_image : envbuilder_cached_image.cached.0.image
   }
-
-  resource "coder_metadata" "container_info" {
-    count       = data.coder_workspace.me.start_count
-    resource_id = coder_agent.main.id
-    item {
-      key   = "workspace image"
-      value = var.cache_repo == "" ? local.devcontainer_builder_image : envbuilder_cached_image.cached.0.image
-    }
-    item {
-      key   = "git url"
-      value = local.repo_url
-    }
-    item {
-      key   = "cache repo"
-      value = var.cache_repo == "" ? "not enabled" : var.cache_repo
-    }
+  item {
+    key   = "git url"
+    value = local.repo_url
+  }
+  item {
+    key   = "cache repo"
+    value = var.cache_repo == "" ? "not enabled" : var.cache_repo
   }
 }
 
@@ -162,6 +162,7 @@ locals {
     "ENVBUILDER_PUSH_IMAGE" : var.cache_repo == "" ? "" : "true"
   }
 }
+
 resource "kubernetes_persistent_volume_claim_v1" "workspaces" {
   metadata {
     name      = "coder-${lower(data.coder_workspace.me.id)}-workspaces"
@@ -258,14 +259,14 @@ resource "kubernetes_deployment_v1" "main" {
             }
           }
           volume_mount {
-            mount_path = "/home/coder"
-            name       = "home"
+            mount_path = "/workspaces"
+            name       = "workspaces"
             read_only  = false
           }
         }
 
         volume {
-          name = "home"
+          name = "workspaces"
           persistent_volume_claim {
             claim_name = kubernetes_persistent_volume_claim_v1.home.metadata.0.name
             read_only  = false
