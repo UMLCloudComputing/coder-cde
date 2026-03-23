@@ -337,13 +337,6 @@ resource "coder_agent" "main" {
     git config --global user.email ${local.git_author_email}
 
     coder git_auth setup primary-github
-
-    echo "Waiting for repository to clone..."
-    while [ ! -d "${coder_agent.main.dir}" ]; do
-      sleep 1
-    done
-    cd "${coder_agent.main.dir}"
-    echo "Repository ready!"
   EOT
 
   # These environment variables allow you to make Git commits right away after creating a
