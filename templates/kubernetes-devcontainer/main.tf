@@ -336,7 +336,6 @@ resource "coder_agent" "main" {
     git config --global user.name ${local.git_author_name}
     git config --global user.email ${local.git_author_email}
 
-    coder git-auth setup primary-github
   EOT
 
   # These environment variables allow you to make Git commits right away after creating a
