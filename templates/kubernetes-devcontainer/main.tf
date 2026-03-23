@@ -38,11 +38,11 @@ variable "use_kubeconfig" {
   default     = false
 }
 
-variable "namespace" {
-  type        = string
-  default     = "coder"
-  description = "The Kubernetes namespace to create workspaces in (must exist prior to creating workspaces). If the Coder host is itself running as a Pod on the same Kubernetes cluster as you are deploying workspaces to, set this to the same namespace."
-}
+#  variable "namespace" {
+#    type        = string
+#    default     = "coder"
+#    description = "The Kubernetes namespace to create workspaces in (must exist prior to creating workspaces). If the Coder host is itself running as a Pod on the same Kubernetes cluster as you are deploying workspaces to, set this to the same namespace."
+#  }
 
 variable "cache_repo" {
   default     = ""
