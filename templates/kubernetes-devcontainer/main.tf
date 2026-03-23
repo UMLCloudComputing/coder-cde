@@ -345,7 +345,6 @@ resource "coder_agent" "main" {
     cd "${coder_agent.main.dir}"
     echo "Repository ready!"
   EOT
-  dir            = "/workspaces"
 
   # These environment variables allow you to make Git commits right away after creating a
   # workspace. Note that they take precedence over configuration defined in ~/.gitconfig!
