@@ -148,7 +148,7 @@ data "coder_external_auth" "github" {
 locals {
   deployment_name            = "coder-${lower(data.coder_workspace.me.id)}"
   devcontainer_builder_image = data.coder_parameter.devcontainer_builder.value
-  git_author_name            = coalesce(data.coder_workspace_owner.me.full_name, data.coder_workspace_owner.me.username)
+  git_author_name            = coalesce(data.coder_workspace_owner.me.full_name, data.coder_workspace_owner.me.name)
   git_author_email           = data.coder_workspace_owner.me.email
   repo_url                   = data.coder_parameter.repo.value
   # The envbuilder provider requires a key-value map of environment variables.
