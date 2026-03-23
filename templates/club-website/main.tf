@@ -41,7 +41,7 @@ resource "coder_agent" "main" {
 
     # Set the Coder Credential Helper
     # This tells Git: "When you need a password for GitHub, ask the Coder CLI"
-    coder git-auth setup github
+    coder git-auth setup primary-github
   EOT
 
   dir = "/workspaces/${element(split("/", local.repo_url), length(split("/", local.repo_url)) - 1)}"
@@ -204,7 +204,7 @@ resource "kubernetes_deployment_v1" "main" {
   depends_on = [
     kubernetes_persistent_volume_claim_v1.workspaces
   ]
-  wait_for_rollout = false
+  wait_for_rollout = true
   metadata {
     name      = local.deployment_name
     namespace = "coder"
